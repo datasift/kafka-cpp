@@ -166,6 +166,7 @@ void producer::handle_connect(const boost::system::error_code& error_code
 void producer::handle_write_request(const boost::system::error_code& error_code
 		, std::size_t /*bytes_transferred*/
 		, message_ptr_t msg_ptr
+		, boost::shared_ptr<boost::asio::streambuf> data
 		, send_error_handler_function const & error_handler)
 {
 

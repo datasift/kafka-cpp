@@ -135,8 +135,8 @@ public:
 		}
 
 		// TODO: make this more efficient with memory allocations.
-		boost::asio::streambuf* buffer = new boost::asio::streambuf();
-		std::ostream stream(buffer);
+		boost::shared_ptr<boost::asio::streambuf> buffer(new boost::asio::streambuf());
+		std::ostream stream(buffer.get());
 
 		stream << msg_ptr->content;
 
@@ -151,6 +151,7 @@ public:
 							, boost::asio::placeholders::error
 							, boost::asio::placeholders::bytes_transferred
 							, msg_ptr
+							, buffer
 							, error_handler
 				)
 		);
@@ -178,6 +179,7 @@ private:
 	void handle_write_request(const boost::system::error_code& error_code
 			, std::size_t bytes_transferred
 			, message_ptr_t msg_ptr
+			, boost::shared_ptr<boost::asio::streambuf> data
 			, send_error_handler_function const & error_handler);
 
 	/*
